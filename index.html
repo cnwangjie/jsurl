@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>短网址</title>
+        <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+        .container {
+            max-width: 760px;
+        }
+        .header {
+            text-align: center;
+        }
+        .container h1 {
+            margin: 40px 0;
+        }
+        .form-inline {
+            padding-top: 12px;
+            text-align: left;
+        }
+        #s {
+            width: 280px;
+        }
+        #btn {
+            float: right;
+            width: 80px;
+        }
+        #msg {
+            text-align: left;
+        }
+        .footer {
+            text-align: center;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <a href="http://i8e.net"><h1>短网址 - 孑然一生</h1></a>
+            </div>
+
+            <div id="msg" class="alert alert-success hidden"></div>
+            <input id="target" type="text" class="form-control" placeholder="Original URL"></input>
+            <div class="form-inline">
+                <input id="s" type="text" class="form-control" placeholder="Alias (Optional)"></input>
+                <button id="btn" class="btn btn-primary">Submit</button>
+            </div>
+
+            <ul class="msg">
+                <h3>站长留言</h3>
+                <li>之前的短网址程序挂了，于是就重写了一个，因为之前的短网址以辣鸡链接为主，所以就不保留原来的数据了。但是数据并没有删除，要数据请联系我</li>
+                <li>该域名(i8e.net)的二级域名免费外发,要用请<a target="_blank" href="http://www.cnwangjie.com/">联系本人</a></li>
+            </ul>
+
+            <div class="footer">
+                <p>请勿滥用或用于违法用途</p>
+                <p>Powered by <a href="http://www.cnwangjie.com">cnwangjie.com</a>
+            </div>
+        </div>
+        <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+        <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script>
+        $('#btn').click(function() {
+            console.log('!!!')
+            var target = $('#target').val()
+            var s = $('#s').val()
+            if (target == '') {
+                return
+            }
+            var data = {
+                target: target
+            }
+            if (s != '') {
+                data.s = s
+            }
+            console.log(data)
+            $.ajax({
+                type: 'POST',
+                url: 'http://i8e.net/',
+                data: data
+            }).done(function(json) {
+                console.log(json)
+                if (json.status == 'success') {
+                    $("#msg").removeClass('alert-danger').removeClass('hidden').addClass('alert-success').text('SUCCESS! short url: ' + document.URL + json.s)
+                } else if (json.status == 'error') {
+                    $("#msg").removeClass('alert-success').removeClass('hidden').addClass('alert-danger').text('ERROR! ' + json.msg)
+                }
+            })
+        })
+        </script>
+    </body>
+</html>
