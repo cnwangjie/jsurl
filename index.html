@@ -77,14 +77,14 @@
             console.log(data)
             $.ajax({
                 type: 'POST',
-                url: 'http://i8e.net/',
+                url: '/',
                 data: data
             }).done(function(json) {
                 console.log(json)
                 if (json.status == 'success') {
-                    $("#msg").removeClass('alert-danger').removeClass('hidden').addClass('alert-success').text('SUCCESS! short url: ' + document.URL + json.s)
+                    $("#msg").removeClass('alert-danger').removeClass('hidden').addClass('alert-success').html('<strong>SUCCESS!</strong> short url: <a class="alert-link" href="' + document.URL + json.s + '">' + document.URL + json.s + '</a>')
                 } else if (json.status == 'error') {
-                    $("#msg").removeClass('alert-success').removeClass('hidden').addClass('alert-danger').text('ERROR! ' + json.msg)
+                    $("#msg").removeClass('alert-success').removeClass('hidden').addClass('alert-danger').html('<strong>ERROR!</strong> ' + json.msg)
                 }
             })
         })

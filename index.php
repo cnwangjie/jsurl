@@ -3,14 +3,21 @@ $method = $_SERVER['REQUEST_METHOD'];
 $uri = substr($_SERVER['REQUEST_URI'],strpos($_SERVER['PHP_SELF'],'index.php'));
 require_once 'function.php';
 if ($method == 'GET') {
-    $target = gettarget($uri);
-    if ($target) {
-        redirect($target);
-    } else {
-        // redirect('/');
+
+    // 这里可以进行路由的分发
+    if ($uri == '') {
         include 'index.html';
+    } else {
+        $target = gettarget($uri);
+        if ($target) {
+            redirect($target);
+        } else {
+            redirect('/');
+        }
     }
 } else if ($method == 'POST') {
+
+    // 对于POST请求的处理模式，同样可以先进行路由的解析和分发
     if (!key_exists('target', $_POST)) {
         sendjson(array(
             'status' => 'error',
@@ -46,8 +53,8 @@ if ($method == 'GET') {
             sendjson(array(
                 'status' => 'success',
                 'msg' => 'create success',
-                'target' => $target,
-                's' => $s
+                'target' => $result['target'],
+                's' => $result['s'],
             ));
             status(200);
         } else {
