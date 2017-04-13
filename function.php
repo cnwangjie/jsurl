@@ -1,13 +1,13 @@
 <?php
-define('PREFIX', 'jsurl_');
+require_once 'config.php';
 
 // 获取PDO方法
 function getdb() {
-    $host = '127.0.0.1';
-    $port = 3306;
-    $user = 'root';
-    $pass = 'password';
-    $dbname = 'test';
+    $host = DB_HOST;
+    $port = DB_PORT;
+    $user = DB_USER;
+    $pass = DB_PASS;
+    $dbname = DB_NAME;
 
     $dsn = "mysql:host={$host};port={$port};dbname={$dbname};";
     return new PDO($dsn, $user, $pass);
@@ -108,7 +108,11 @@ function create($target, $s = null) {
         $st = $db->query('SELECT MAX(id) FROM '.PREFIX.'urls');
         $re = $st->fetchAll()[0];
         if ($re != null) {
-            $s = base_convert($re[0] + 1, 10, 36);
+            $num = $re[0] + 1;
+            while (sexist(base_convert($num, 10, 36))) {
+                $num += 100;
+            }
+            $s = base_convert($num, 10, 36);
         } else {
             $s = 1;
         }

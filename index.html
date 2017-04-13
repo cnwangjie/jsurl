@@ -39,13 +39,14 @@
             <div class="header">
                 <a href="http://i8e.net"><h1>短网址 - 孑然一生</h1></a>
             </div>
-
-            <div id="msg" class="alert alert-success hidden"></div>
-            <input id="target" type="text" class="form-control" placeholder="Original URL"></input>
-            <div class="form-inline">
-                <input id="s" type="text" class="form-control" placeholder="Alias (Optional)"></input>
-                <button id="btn" class="btn btn-primary">Submit</button>
-            </div>
+            <form onsubmit="javascript:return false">
+                <div id="msg" class="alert alert-success hidden"></div>
+                <input id="target" type="text" class="form-control" placeholder="Original URL" required autofocus></input>
+                <div class="form-inline">
+                    <input id="s" type="text" class="form-control" placeholder="Alias (Optional)"></input>
+                    <button id="btn" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
 
             <ul class="msg">
                 <h3>站长留言</h3>
