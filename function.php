@@ -108,7 +108,7 @@ function create($target, $s = null) {
         $st = $db->query('SELECT MAX(id) FROM '.PREFIX.'urls');
         $re = $st->fetchAll()[0];
         if ($re != null) {
-            $s = $re[0] + 1;
+            $s = base_convert($re[0] + 1, 10, 36);
         } else {
             $s = 1;
         }

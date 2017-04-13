@@ -1,6 +1,7 @@
 <?php
 $method = $_SERVER['REQUEST_METHOD'];
 $uri = substr($_SERVER['REQUEST_URI'],strpos($_SERVER['PHP_SELF'],'index.php'));
+require_once 'blacklist.php';
 require_once 'function.php';
 if ($method == 'GET') {
 
@@ -27,6 +28,14 @@ if ($method == 'GET') {
     }
 
     $target = $_POST['target'];
+
+    if (banned($target)) {
+        sendjson(array(
+            'status' => 'error',
+            'msg' => 'this link can not be shortened',
+        ));
+        status(400);
+    }
 
     if (key_exists('s', $_POST)) {
         $s = $_POST['s'];
